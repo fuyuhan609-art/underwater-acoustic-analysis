@@ -1,0 +1,6 @@
+Underwater Acoustic Signal Analysis
+===================================
+SNR before filtering: -1.09 dB
+SNR after filtering: 10.43 dB
+SNR improvement: 11.52 dB
+Dominant frequency: 1000.00 Hz
