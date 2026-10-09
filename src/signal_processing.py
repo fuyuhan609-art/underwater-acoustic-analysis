@@ -41,6 +41,12 @@ def bandpass_filter(
     low_cutoff,
     high_cutoff
 ):
+    if not 0 < low_cutoff < high_cutoff < sampling_rate / 2:
+        raise ValueError(
+            "Cutoff frequencies must satisfy "
+            "0 < low_cutoff < high_cutoff < Nyquist frequency."
+        )
+
     sos = butter(
         4,
         [low_cutoff, high_cutoff],
