@@ -1,3 +1,4 @@
+import csv
 import numpy as np
 
 from signal_processing import (
@@ -20,6 +21,7 @@ print(
     f"{'After SNR':>15} "
     f"{'Improvement':>15}"
 )
+results = []
 
 for noise_amplitude in noise_levels:
     _, clean_signal, noisy_signal, noise = generate_signal(
@@ -49,6 +51,12 @@ for noise_amplitude in noise_levels:
     )
 
     improvement = snr_after - snr_before
+    results.append({
+        "noise_amplitude": noise_amplitude,
+        "snr_before_db": snr_before,
+        "snr_after_db": snr_after,
+        "snr_improvement_db": improvement
+    })
 
     print(
         f"{noise_amplitude:>8.1f} "
@@ -56,3 +64,23 @@ for noise_amplitude in noise_levels:
         f"{snr_after:>12.2f} dB "
         f"{improvement:>12.2f} dB"
     )
+with open(
+    "data/noise_experiment.csv",
+    "w",
+    newline="",
+    encoding="utf-8"
+) as file:
+    writer = csv.DictWriter(
+        file,
+        fieldnames=[
+            "noise_amplitude",
+            "snr_before_db",
+            "snr_after_db",
+            "snr_improvement_db"
+        ]
+    )
+
+    writer.writeheader()
+    writer.writerows(results)
+
+print("\nResults saved to data/noise_experiment.csv")
